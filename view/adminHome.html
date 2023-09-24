@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Home Page</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Include Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- Custom CSS -->
+    <style>
+        .menu-tile {
+            background-color: #3498db;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+            margin: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .menu-tile:hover {
+            background-color: #2980b9;
+        }
+
+        .menu-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        /* Added text color */
+        .menu-text {
+            color: #fff;
+        }
+
+        /* Added footer styles */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-4">Admin Home Page</h1>
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="menu-tile">
+                    <i class="fas fa-users menu-icon"></i>
+                    <a href="/admin/user" class="menu-text">User Management</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="menu-tile">
+                    <i class="fas fa-puzzle-piece menu-icon"></i>
+                    <a href="quiz-management.html" class="menu-text">Quiz Management</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="menu-tile">
+                    <i class="fas fa-user-circle menu-icon"></i>
+                    <a href="profile.html" class="menu-text">Profile</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="menu-tile">
+                    <i class="far fa-building menu-icon"></i>
+                    <a href="/admin/department" class="menu-text">Department</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Fixed Footer -->
+    <div class="footer">
+        Made with ❤️ by Gokul Sujan
+    </div>
+    
+    <!-- Include Bootstrap JS and jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

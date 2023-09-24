@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Department Management</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Include Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Custom CSS for the fixed footer */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">Department Management</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <!-- Replace the text with a Font Awesome icon -->
+                        <a class="nav-link" href="/admin/home"><i class="fas fa-home"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1>Add a Department</h1>
+        <form action="/admin/department" method="POST">
+            <div class="mb-3">
+                <label for="departmentName" class="form-label">Department Name</label>
+                <input type="text" class="form-control" id="departmentName" name="name" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Department</button>
+        </form>
+
+        <h2>Departments</h2>
+        <div aria-live="polite" aria-atomic="true" class="bg-body-secondary position-relative bd-example-toasts rounded-3">
+            <div class="toast-container bottom-0 end-0 p-3" id="toastPlacement">
+                <div class="toast align-items-center text-bg-primary" id ="notificationToast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                    <div class="toast-body">
+                    
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Sl No</th>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ $counter := 1 }}
+                {{range .departments}}
+                <tr>
+                    <td>{{ $counter }}</td>
+                    <td>{{.Name}}</td>
+                    <td>
+                        <form action="/admin/delete/{{ .ID }}" method="POST">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type ="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                        </form>
+                    </td>
+                </tr>
+                {{ $counter = add $counter 1 }} <!-- Increment the counter without := -->
+                {{end}}
+            </tbody>
+        </table>
+        
+    </div>
+
+    <!-- Fixed Footer -->
+    <footer class="footer">
+        Made with ❤️ by Gokul Sujan
+    </footer>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Get the query parameter from the URL (e.g., ?success=true)
+        const urlParams = new URLSearchParams(window.location.search);
+        const isSuccess = urlParams.get('success');
+        const isDelete = urlParams.get('delete');
+
+
+        // Check if the success parameter is present and true
+        if (isSuccess === 'true' || isDelete == 'true') {
+            // Display the toast notification with a success message
+            const notificationToast = new bootstrap.Toast(document.getElementById('notificationToast'));
+            const toastBody = document.querySelector('#notificationToast .toast-body');
+            
+            // Set your success message here
+            if (isSuccess == 'true'){
+                toastBody.textContent = 'Department added to the list';
+            } else {
+                toastBody.textContent = 'Department deleted';
+            }
+            
+            notificationToast.show();
+        }
+    </script>
+</body>
+</html>

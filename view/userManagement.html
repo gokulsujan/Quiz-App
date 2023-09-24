@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <!-- Add Bootstrap CSS and Font Awesome CSS links here -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="mb-3">
+            <button class="btn btn-secondary"><i class="fas fa-home"></i> Home</button>
+        </div>
+        <h1>User Management</h1>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Employee ID</th>
+                        <th>Department</th>
+                        <th>Email ID</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{ range .users}}
+                    <tr>
+                        <td> {{ .Name }}</td>
+                        <td>{{ .EmpId }}</td>
+                        <td>{{ .Dept.Name }}</td>
+                        <td>{{ .Email }}</td>
+                        <td>{{ .Status }}</td>
+                        <td>
+                            <button class="btn btn-primary"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                        </td>
+                    </tr>
+                    {{ end }}
+                    <!-- Add more user rows here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Fixed footer with centered text -->
+    <footer class="fixed-bottom text-center bg-dark text-white py-2">
+        Made with ❤️ by Gokul Sujan
+    </footer>
+
+    <!-- Add Bootstrap JS and jQuery script links here -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
