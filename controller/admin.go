@@ -66,3 +66,62 @@ func UserManagerment(c *gin.Context) {
 	}
 	c.HTML(http.StatusOK, "userManagement.html", gin.H{"users": users})
 }
+
+func EditUserForm(c *gin.Context) {
+	id := c.Param("id")
+	var user models.User
+	var dept []models.Department
+	//getting dept
+	depart := config.DB.Find(&dept)
+	if depart.Error != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"status": "false", "error": depart.Error.Error()})
+		return
+	}
+	result := config.DB.Preload("Dept").Where("id = ?", id).First(&user)
+	if result.Error != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"status": "false", "error": result.Error.Error()})
+		return
+	}
+	c.HTML(http.StatusOK, "userEdit.html", gin.H{"user": user, "dept": dept})
+
+}
+
+func EditUser(c *gin.Context) {
+	id := c.Param("id")
+	var user models.User
+	if err := c.ShouldBind(&user); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error(), "status": "false"})
+		return
+	}
+	//checking the email id already exists or not
+	checkEmail := config.DB.Not("id = ?", id).Where("email = ?", user.Email).First(&models.User{})
+	if checkEmail.RowsAffected != 0 {
+		c.JSON(http.StatusUnauthorized, gin.H{"message": "Email Id already registered with us.", "status": "false"})
+		return
+	}
+
+	//checking employee id exist or not
+	checkEmp := config.DB.Not("id = ?", id).Where("emp_id = ?", user.EmpId).First(&models.User{})
+	if checkEmp.RowsAffected != 0 {
+		c.JSON(http.StatusUnauthorized, gin.H{"message": "Employee id already registered with us", "status": "false"})
+		return
+	}
+
+	//updating the data
+	result := config.DB.Model(&user).Where("id = ?", id).Updates(models.User{Name: user.Name, EmpId: user.EmpId, Department: user.Department, Email: user.Email, Role: user.Role, Status: user.Status})
+	if result.Error != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"status": "false", "error": result.Error.Error()})
+		return
+	}
+	c.Redirect(http.StatusSeeOther, "/admin/user?update=true")
+}
+
+func DeleteUser(c *gin.Context) {
+	id := c.Param("id")
+	result := config.DB.Delete(&models.User{}, id)
+	if result.Error != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"status": "false", "error": result.Error.Error()})
+		return
+	}
+	c.Redirect(http.StatusSeeOther, "/admin/user?delete=true")
+}

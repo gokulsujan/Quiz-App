@@ -20,12 +20,20 @@ func main() {
 		"add": func(a, b int) int {
 			return a + b
 		},
+		"eq": func(a, b interface{}) bool {
+			return a == b
+		},
 	}
 
 	r := gin.Default()
 
 	// Register the custom function with the template engine
 	r.SetFuncMap(funcMap)
+	// r.SetFuncMap(template.FuncMap{
+	// 	"eq": func(a, b interface{}) bool {
+	// 		return a == b
+	// 	},
+	// })
 
 	// Serve HTML templates from the "templates" directory
 	r.LoadHTMLGlob("view/*.html")

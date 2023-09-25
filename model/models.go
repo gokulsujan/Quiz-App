@@ -21,13 +21,13 @@ type User struct {
 	Dept       Department `gorm:"ForeignKey:Department"`
 	Email      string     `json:"email" form:"email" gorm:"not null"`
 	Password   string     `json:"password" form:"password" gorm:"not null"`
-	Role       string     `json:"role" gorm:"default:user"`
-	Status     string     `json:"status" gorm:"default:pending"`
+	Role       string     `json:"role" form:"role" gorm:"default:user"`
+	Status     string     `json:"status" form:"status" gorm:"default:pending"`
 }
 
 type Department struct {
 	gorm.Model
-	Name string `json:"name" form:"name" gorm:"not null"`
+	Name string `json:"dept_name" form:"dept_name" gorm:"not null"`
 }
 
 // Quiz represents a quiz that can be created by an admin.

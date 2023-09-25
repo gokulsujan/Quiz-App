@@ -24,5 +24,8 @@ func RouteSetup(r *gin.Engine) {
 		Admin.POST("/department", auth.AdminAuth, controller.AddDepartment)
 		Admin.POST("/delete/:id", auth.AdminAuth, controller.DeleteDept)
 		Admin.GET("/user", auth.AdminAuth, controller.UserManagerment)
+		Admin.GET("/user/edit/:id", auth.AdminAuth, controller.EditUserForm)
+		Admin.POST("/user/edit/:id", auth.AdminAuth, controller.EditUser)
+		Admin.GET("/user/delete/:id", auth.AdminAuth, controller.DeleteUser)
 	}
 }
