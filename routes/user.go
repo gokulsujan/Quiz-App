@@ -27,5 +27,11 @@ func RouteSetup(r *gin.Engine) {
 		Admin.GET("/user/edit/:id", auth.AdminAuth, controller.EditUserForm)
 		Admin.POST("/user/edit/:id", auth.AdminAuth, controller.EditUser)
 		Admin.GET("/user/delete/:id", auth.AdminAuth, controller.DeleteUser)
+		Admin.GET("/quiz", auth.AdminAuth, controller.QuizHome)
+		Admin.POST("/quiz/add", auth.AdminAuth, controller.AddQuiz)
+		Admin.GET("/quiz/delete/:id", auth.AdminAuth, controller.DeleteQuiz)
+		Admin.GET("/quiz/edit/:id", auth.AdminAuth, controller.EditQuizForm)
+		Admin.POST("/quiz/edit/:id", auth.AdminAuth, controller.EditQuiz)
+		Admin.GET("/quiz/start/:id", auth.AdminAuth, controller.StartQuiz)
 	}
 }

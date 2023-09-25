@@ -33,9 +33,10 @@ type Department struct {
 // Quiz represents a quiz that can be created by an admin.
 type Quiz struct {
 	gorm.Model
-	Title    string `json:"title" gorm:"not null"`
-	Duration int    `json:"duration" gorm:"not null"` // Duration in minutes
-	Status   string `json:"status" gorm:"not null"`
+	Title       string `json:"title" form:"title" gorm:"not null"`
+	Description string `json:"description" form:"description" gorm:"not null"`
+	Duration    int    `json:"duration" form:"duration" gorm:"not null"` // Duration in minutes
+	Status      string `json:"status" form:"status" gorm:"default:pending"`
 }
 
 // Question represents a quiz question.
