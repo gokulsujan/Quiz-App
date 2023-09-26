@@ -42,21 +42,41 @@ type Quiz struct {
 // Question represents a quiz question.
 type Question struct {
 	gorm.Model
-	QuizID        uint   `json:"quiz_id" gorm:"not null"`
-	Text          string `json:"text" gorm:"not null"`
-	OptionA       string `json:"option_a" gorm:"not null"`
-	OptionB       string `json:"option_b" gorm:"not null"`
-	OptionC       string `json:"option_c" gorm:"not null"`
-	OptionD       string `json:"option_d" gorm:"not null"`
-	CorrectAnswer int    `json:"correct_answer" gorm:"not null"`
+	QuizID        uint   `json:"quiz_id" form:"quiz_id" gorm:"not null"`
+	Quiz          Quiz   `gorm:"ForeignKey:QuizID"`
+	Text          string `json:"text" form:"text" gorm:"not null"`
+	OptionA       string `json:"option_a" form:"option_a" gorm:"not null"`
+	OptionB       string `json:"option_b" form:"option_b" gorm:"not null"`
+	OptionC       string `json:"option_c" form:"option_c" gorm:"not null"`
+	OptionD       string `json:"option_d" form:"option_d" gorm:"not null"`
+	CorrectAnswer int    `json:"correct_answer" form:"correct_answer" gorm:"not null"`
 }
 
 // UserQuiz represents the participation of a user in a quiz.
 type UserQuiz struct {
 	gorm.Model
 	UserID      uint       `json:"user_id"  gorm:"not null"`
+	User        User       `gorm:"ForeignKey:UserID"`
 	QuizID      uint       `json:"quiz_id" gorm:"not null"`
+	Quiz        Quiz       `gorm:"ForeignKey:QuizID"`
 	Score       int        `json:"score" gorm:"not null"`
-	StartedAt   *time.Time `json:"started_at" gorm:"not null"`
 	CompletedAt *time.Time `json:"completed_at" gorm:"not null"`
+}
+
+// UserQuestion
+type UserQuestion struct {
+	UserQuizId uint     `json:"user_quiz_id" form:"user_quiz_id" gorm:"not null"`
+	UserQuiz   UserQuiz `gorm:"ForeignKey:UserQuizId"`
+	QuestionId uint     `json:"question_id" form:"questin_id" gorm:"not null"`
+	Question   Question `gorm:"ForeignKey:"`
+	Answer     int      `json:"answer" form:"answer" gorm:"not null"`
+}
+
+// Guidelines represents the guidelines for the quiz
+
+type Guidelines struct {
+	gorm.Model
+	Guideline string `json:"guideline" form:"guideline" gorm:"not null"`
+	QuizId    uint   `json:"quiz_id" form:"quiz_id" gorm:"not null"`
+	Quiz      Quiz   `gorm:"ForeignKey:QuizId"`
 }

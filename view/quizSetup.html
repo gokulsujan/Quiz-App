@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Setup</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Add Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .quet-cont{
+            margin-bottom: 80px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Quiz Setup : {{ .quiz.Title }}</h1>
+        <h6 class="text-center">{{ .quiz.Description }}</h6>
+
+        <!-- Home and Back Buttons -->
+    <div class="container mt-3">
+        <a href="/admin/home" class="btn btn-primary">
+            <i class="fas fa-home"></i> Home
+        </a>
+        <a onclick="history.back()" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+         <!-- Buttons to open modals -->
+     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addGuidelineModal">
+        Add Guideline
+    </button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addQuestionModal">
+        Add Question
+    </button>
+    <div aria-live="polite" aria-atomic="true" class="bg-body-secondary position-relative bd-example-toasts rounded-3">
+        <div class="toast-container bottom-0 end-0 p-3" id="toastPlacement">
+            <div class="toast align-items-center text-light bg-primary" id ="notificationToast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+        <!-- Add Guideline Modal -->
+        <div class="modal fade" id="addGuidelineModal" tabindex="-1" role="dialog" aria-labelledby="addGuidelineModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addGuidelineModalLabel">Add Guideline</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/admin/quiz/guideline/add" method="post">
+                            <div class="form-group">
+                                <label for="guideline">Guideline:</label>
+                                <input type="text" class="form-control" name="guideline" placeholder="Enter guideline" required>
+                            </div>
+                            <input type="number" style="display: none;" value="{{ .quiz.ID }}" name="quiz_id">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Guideline</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Question Modal -->
+        <div class="modal fade" id="addQuestionModal" tabindex="-1" role="dialog" aria-labelledby="addQuestionModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addQuestionModalLabel">Add Question and Options</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/admin/quiz/question/add" method="post">
+                            <div class="form-group">
+                                <input type="number" style="display: none;" value="{{ .quiz.ID }}" name="quiz_id">
+                                <label for="question">Question:</label>
+                                <input type="text" class="form-control" name="text" placeholder="Enter question" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="options">Options A:</label>
+                                <input type="text" class="form-control" name="option_a" placeholder="Enter options" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="options">Options B:</label>
+                                <input type="text" class="form-control" name="option_b" placeholder="Enter options" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="options">Options C:</label>
+                                <input type="text" class="form-control" name="option_c" placeholder="Enter options" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="options">Options D:</label>
+                                <input type="text" class="form-control" name="option_d" placeholder="Enter options" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="options">Correct Option:</label>
+                                <input type="number" class="form-control" name="correct_answer" placeholder="Enter options" required>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Question</button>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="row quet-cont">
+            <div class="col-md-9">
+                <!-- Display questions here -->
+                <h2>Questions</h2>
+                {{ $sl := 1}}
+                {{ range .questions}}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Question {{ $sl }}</h5>
+                        <p class="card-text">{{ .Text }}</p>
+                        <div class="form-check">
+                            <label class="form-check-label" for="q1_option1">Option 1 : {{ .OptionA }}</label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label" for="q1_option2">Option 2 : {{ .OptionB }}</label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label" for="q1_option3">Option 3 : {{ .OptionC }}</label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label" for="q1_option4">Option 4 : {{ .OptionD }}</label>
+                        </div>
+                        <p class="mt-2">Correct Answer: 
+                            <b>{{ if eq .CorrectAnswer 1}}
+                            {{ .OptionA }}
+                            {{ else if eq .CorrectAnswer 2 }}
+                            {{ .OptionB }}
+                            {{ else if eq .CorrectAnswer 3 }}
+                            {{ .OptionC }}
+                            {{ else if eq .CorrectAnswer 4 }}
+                            {{ .OptionD }}
+                            {{ $sl = add $sl 1 }}
+                            {{end}}</b>
+                        </p>
+                        
+                        <!-- Buttons for Edit and Delete -->
+                        <div class="btn-group mt-3">
+                            <a href="/admin/quiz/question/edit/{{ .ID }}" class="btn btn-primary">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>&nbsp;
+                            &nbsp;
+                            <a href="/admin/quiz/question/delete/{{ .ID }}" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Delete
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {{end}}
+
+            </div>
+            <div class="col-md-3">
+                <!-- Display guidelines here -->
+                <h2>Guidelines</h2>
+                <table class="table table-reponsive table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <td>Guideline</td>
+                            <td>Action</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {{ range .guidlines}}
+                    <tr>
+                        <td>{{ .Guideline }}</td>
+                        <td><a href="/admin/quiz/guideline/delete/{{.ID}}" class="btn btn-danger"><i class="fas fa-trash"></i></button></a>
+                    </tr>
+                    {{ end }}
+                    </tbody>
+                </table>
+                <!-- Add your code to display guidelines here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-2 fixed-bottom">
+        Made with <i class="fas fa-heart text-danger"></i> by Gokul Sujan
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Get the query parameter from the URL (e.g., ?success=true)
+        const urlParams = new URLSearchParams(window.location.search);
+        const guideadd = urlParams.get('guideadd');
+        const guidedelete = urlParams.get('guidedelete');
+        const questionAdd = urlParams.get('questionAdd');
+        const questionEdit = urlParams.get('questionEdit');
+        const questionDelete = urlParams.get('questionDelete');
+
+
+        // Check if the success parameter is present and true
+        if (guideadd == "true" || guidedelete == "true" || questionAdd == "true" || questionEdit == "true" || questionDelete == "true") {
+            // Display the toast notification with a success message
+            const notificationToast = new bootstrap.Toast(document.getElementById('notificationToast'));
+            const toastBody = document.querySelector('#notificationToast .toast-body');
+            
+            // Set your success message here
+            if (guideadd == "true"){
+                toastBody.textContent = 'Guideline added successfully';
+            }
+
+            if (guidedelete == "true") {
+                toastBody.textContent = 'Guideline deleted successfully';
+            }
+
+            if (questionAdd == "true"){
+                toastBody.textContent = 'Question added successfully';
+            }
+
+            if (questionEdit == "true") {
+                toastBody.textContent = 'Question updated successfully';
+            }
+            if (questionDelete == "true") {
+                toastBody.textContent = 'Question Deleted successfully';
+            }
+            
+            notificationToast.show();
+        }
+    </script>
+</body>
+</html>

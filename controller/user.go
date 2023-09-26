@@ -42,10 +42,43 @@ func UserSignUpForm(c *gin.Context) {
 	var department []models.Department
 	result := config.DB.Find(&department)
 	if result.Error != nil {
-		if result.Error != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": result.Error.Error(), "status": "false"})
-			return
-		}
+		c.JSON(http.StatusBadRequest, gin.H{"error": result.Error.Error(), "status": "false"})
+		return
 	}
 	c.HTML(http.StatusOK, "registration.html", gin.H{"departments": department})
+}
+
+func UserHome(c *gin.Context) {
+	var quiz []models.Quiz
+	var user models.User
+	userId, _ := c.Get("empID")
+	getUser := config.DB.Where("emp_id = ?", userId).First(&user)
+	if getUser.Error != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": getUser.Error.Error(), "status": "false"})
+		return
+	}
+	result := config.DB.Where("status = ? OR status = ?", "active", "ended").Find(&quiz)
+	if result.Error != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": result.Error.Error(), "status": "false"})
+		return
+	}
+	c.HTML(http.StatusOK, "userHome.html", gin.H{"quiz": quiz, "user": user})
+}
+
+func QuizGuidelines(c *gin.Context) {
+	id := c.Param("id")
+	var guidelines []models.Guidelines
+	var user models.User
+	result := config.DB.Where("quiz_id = ?", id).Find(&guidelines)
+	if result.Error != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": result.Error.Error(), "status": "false"})
+		return
+	}
+	userId, _ := c.Get("empID")
+	getUser := config.DB.Where("emp_id = ?", userId).First(&user)
+	if getUser.Error != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": getUser.Error.Error(), "status": "false"})
+		return
+	}
+	c.HTML(http.StatusOK, "userQuizHome.html", gin.H{"guidelines": guidelines, "user": user})
 }

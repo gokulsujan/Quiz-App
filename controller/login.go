@@ -35,6 +35,11 @@ func Login(c *gin.Context) {
 		return
 	}
 
+	if user.Status != "active" {
+		c.JSON(http.StatusUnauthorized, gin.H{"message": "User is not activated", "status": "false"})
+		return
+	}
+
 	token, err := auth.CreateToken(user.EmpId, user.Role)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error(), "status": "false"})

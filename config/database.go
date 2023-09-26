@@ -22,4 +22,5 @@ func ConnectToDB() {
 	DB.AutoMigrate(&models.Question{})
 	DB.AutoMigrate(&models.UserQuiz{})
 	DB.AutoMigrate(&models.Department{})
+	DB.AutoMigrate(&models.Guidelines{})
 }

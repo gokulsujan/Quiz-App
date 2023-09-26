@@ -54,6 +54,7 @@
                 <div class="card">
                     <!-- Quiz Image -->
                     <img src="https://blogassets.leverageedu.com/blog/wp-content/uploads/2020/04/11212007/Science-Quiz.png" class="img-fluid card-img-top" alt="Quiz Image">
+                    <a href="/admin/quiz/setup/{{ .ID }}" style="text-decoration: none;">
                     <div class="card-body">
                         <!-- Quiz Name -->
                         <h5 class="card-title">{{ .Title }}</h5>
@@ -68,7 +69,11 @@
                             {{if eq .Status "pending"}}
                             <span class="badge bg-primary">Pending</span>
                             {{ end }}
+                            {{if eq .Status "ended"}}
+                            <span class="badge bg-danger">Completed</span>
+                            {{ end }}
                         </p>
+                        <br>
                         {{ if eq .Status "active"}}
                         <a href="/admin/quiz/stop/{{ .ID }}" class="btn btn-danger">Stop Quiz</a>
                         {{ else }}
@@ -79,6 +84,7 @@
                         <!-- Delete Button -->
                         <a href="/admin/quiz/delete/{{ .ID }}" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</a>
                     </div>
+                    </a>
                 </div>
             </div>
             {{ end }}

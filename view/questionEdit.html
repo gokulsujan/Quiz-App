@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Quiz Question</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Add Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="container mt-4" style="margin-bottom: 80px;">
+        <h1 class="text-center">Edit Quiz Question</h1>
+
+        <!-- Home and Back Buttons -->
+        <div class="mb-3">
+            <a href="/admin/home" class="btn btn-primary">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a onclick="history.back()" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
+        </div>
+
+        <form action="/admin/quiz/question/edit/{{.id}}" method="post">
+            <div class="form-group">
+                <input type="number" style="display: none;" value="{{ .question.QuizID }}" name="quiz_id">
+                <label for="question">Question:</label>
+                <input type="text" class="form-control" value="{{ .question.Text }}" name="text" required>
+            </div>
+
+            <div class="form-group">
+                <label for="options">Options 1:</label>
+                <input type="text" class="form-control" value="{{ .question.OptionA }}" name="option_a" required>
+            </div>
+
+            <div class="form-group">
+                <label for="options">Options 2:</label>
+                <input type="text" class="form-control" value="{{ .question.OptionB }}" name="option_b" required>
+            </div>
+
+            <div class="form-group">
+                <label for="options">Options 3:</label>
+                <input type="text" class="form-control" value="{{ .question.OptionC }}" name="option_c" required>
+            </div>
+
+            <div class="form-group">
+                <label for="options">Options 4:</label>
+                <input type="text" class="form-control" value="{{ .question.OptionD }}" name="option_d" required>
+            </div>
+
+            <div class="form-group">
+                <label for="options">Correct Option:</label>
+                <input type="number" class="form-control" value="{{ .question.CorrectAnswer }}" name="correct_answer" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update Question</button>
+        </form>
+    </div>
+
+    <!-- Fixed Footer -->
+    <footer class="bg-dark text-white text-center py-2 fixed-bottom">
+        Made with <span style="color: red;">❤️</span> by Gokul Sujan
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
