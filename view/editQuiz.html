@@ -26,7 +26,7 @@
         <form action="/admin/quiz/edit/{{ .quiz.ID }}" method="post">
             <div class="mb-3">
                 <label for="quizTitle" class="form-label">Quiz Title</label>
-                <input type="text" class="form-control" value="{{ .quiz.Title }}" name="title" placeholder="Enter Quiz Title">
+                <input type="text" class="form-control" value="{{ .quiz.Title }}" name="title" placeholder="Enter Quiz Title" required>
             </div>
             <div class="mb-3">
                 <label for="quizDescription" class="form-label">Quiz Description</label>
@@ -35,6 +35,10 @@
             <div class="mb-3">
                 <label for="quizDuration" class="form-label">Quiz Duration (in minutes)</label>
                 <input type="number" value="{{ .quiz.Duration }}" class="form-control" name="duration" placeholder="Enter Quiz Duration">
+            </div>
+            <div class="mb-3">
+                <label for="quizDuration" class="form-label">No. Of Questions</label>
+                <input type="number" value="{{ .quiz.Questions }}" class="form-control" name="questions" placeholder="No. of Questions" required>
             </div>
             <button type="submit" class="btn btn-primary">Save Changes</button>
         </form>

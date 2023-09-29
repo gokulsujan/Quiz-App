@@ -17,6 +17,8 @@ func RouteSetup(r *gin.Engine) {
 		User.POST("login", controller.Login)
 		User.GET("/home", auth.UserAuth, controller.UserHome)
 		User.GET("/quiz/guidelines/:id", auth.UserAuth, controller.QuizGuidelines)
+		User.POST("/quiz/start/:id", auth.UserAuth, controller.UserQuizStart)
+		User.GET("/quiz/questions/:id", auth.UserAuth, controller.QuizQuestion)
 	}
 	Admin := r.Group("/admin")
 	{

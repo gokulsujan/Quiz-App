@@ -51,7 +51,7 @@ func EditQuiz(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error(), "status": "false"})
 		return
 	}
-	result := config.DB.Model(&quiz).Where("id = ?", id).Updates(&models.Quiz{Title: quiz.Title, Description: quiz.Description, Duration: quiz.Duration})
+	result := config.DB.Model(&quiz).Where("id = ?", id).Updates(&models.Quiz{Title: quiz.Title, Description: quiz.Description, Duration: quiz.Duration, Questions: quiz.Questions})
 	if result.Error != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": result.Error.Error(), "status": "false"})
 		return

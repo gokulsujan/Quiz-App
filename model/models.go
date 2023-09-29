@@ -35,6 +35,7 @@ type Quiz struct {
 	gorm.Model
 	Title       string `json:"title" form:"title" gorm:"not null"`
 	Description string `json:"description" form:"description" gorm:"not null"`
+	Questions   int    `json:"questions" form:"questions" gorm:"not null"`
 	Duration    int    `json:"duration" form:"duration" gorm:"not null"` // Duration in minutes
 	Status      string `json:"status" form:"status" gorm:"default:pending"`
 }
@@ -55,16 +56,16 @@ type Question struct {
 // UserQuiz represents the participation of a user in a quiz.
 type UserQuiz struct {
 	gorm.Model
-	UserID      uint       `json:"user_id"  gorm:"not null"`
+	UserID      uint       `json:"user_id" form:"user_id" gorm:"not null"`
 	User        User       `gorm:"ForeignKey:UserID"`
-	QuizID      uint       `json:"quiz_id" gorm:"not null"`
+	QuizID      uint       `json:"quiz_id" form:"quiz_id" gorm:"not null"`
 	Quiz        Quiz       `gorm:"ForeignKey:QuizID"`
-	Score       int        `json:"score" gorm:"not null"`
-	CompletedAt *time.Time `json:"completed_at" gorm:"not null"`
+	CompletedAt *time.Time `json:"completed_at" form:"completed_at" gorm:"default:null"`
 }
 
 // UserQuestion
 type UserQuestion struct {
+	gorm.Model
 	UserQuizId uint     `json:"user_quiz_id" form:"user_quiz_id" gorm:"not null"`
 	UserQuiz   UserQuiz `gorm:"ForeignKey:UserQuizId"`
 	QuestionId uint     `json:"question_id" form:"questin_id" gorm:"not null"`
